@@ -34,6 +34,7 @@ When I'm not building, I'm exploring a new field, reading a book, or learning so
 | **Currently learning** | Data Structures & Algorithms |
 | **Focus** | Shipping clean, scalable, user-first products |
 | **Ask me about** | React, React Native, Next.js, Node, FastAPI, AI integrations |
+| **Portfolio** | [www.greyshan.com](https://www.greyshan.com) |
 | **Reach me** | [greyshan.dev@gmail.com](mailto:greyshan.dev@gmail.com) |
 
 <br/>
