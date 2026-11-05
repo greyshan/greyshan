@@ -44,9 +44,9 @@ When I'm not building, I'm exploring a new field, reading a book, or learning so
 <table>
 <tr>
 <td width="50%" valign="top" align="center">
-<a href="https://github.com/greyshan/Snouters"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=Snouters&fontSize=34&fontColor=3B4A3A&desc=Pet%20care%20%26%20boarding&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="Snouters" width="100%" /></a>
+<a href="https://github.com/greyshan/Snouters"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=Snouters&fontSize=34&fontColor=3B4A3A&desc=Pet%20care%20and%20boarding&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="Snouters" width="100%" /></a>
 <br/>
-<sub>A comprehensive pet-care and boarding platform that helps pet owners manage their pets&#39; health, discover boarding facilities, and stay connected through photo updates and live video.</sub>
+<sub>A comprehensive pet-care and boarding platform that helps pet owners manage their pets’ health, discover boarding facilities, and stay connected through photo updates and live video.</sub>
 </td>
 <td width="50%" valign="top" align="center">
 <a href="https://github.com/greyshan/6pm"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=6PM&fontSize=34&fontColor=3B4A3A&desc=Food-cart%20management&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="6PM" width="100%" /></a>
