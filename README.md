@@ -43,19 +43,27 @@ When I'm not building, I'm exploring a new field, reading a book, or learning so
 <div align="center">
 <table>
 <tr>
-<td width="50%" align="center">
-<a href="https://github.com/greyshan/Snouters"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=Snouters&fontSize=34&fontColor=3B4A3A&desc=View%20on%20GitHub&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="Snouters" width="100%" /></a>
+<td width="50%" valign="top" align="center">
+<a href="https://github.com/greyshan/Snouters"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=Snouters&fontSize=34&fontColor=3B4A3A&desc=Pet%20care%20%26%20boarding&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="Snouters" width="100%" /></a>
+<br/>
+<sub>A comprehensive pet-care and boarding platform that helps pet owners manage their pets&#39; health, discover boarding facilities, and stay connected through photo updates and live video.</sub>
 </td>
-<td width="50%" align="center">
-<a href="https://github.com/greyshan/6pm"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=6pm&fontSize=34&fontColor=3B4A3A&desc=In%20progress%20%C2%B7%20View%20on%20GitHub&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="6pm" width="100%" /></a>
+<td width="50%" valign="top" align="center">
+<a href="https://github.com/greyshan/6pm"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=6PM&fontSize=34&fontColor=3B4A3A&desc=Food-cart%20management&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="6PM" width="100%" /></a>
+<br/>
+<sub>A digital food-cart management and ordering platform that streamlines online orders, payments, inventory, and customer loyalty for local food vendors.</sub>
 </td>
 </tr>
 <tr>
-<td width="50%" align="center">
-<a href="https://github.com/greyshan/PulseWatch"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=PulseWatch&fontSize=34&fontColor=3B4A3A&desc=View%20on%20GitHub&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="PulseWatch" width="100%" /></a>
+<td width="50%" valign="top" align="center">
+<a href="https://github.com/greyshan/PulseWatch"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=PulseWatch&fontSize=34&fontColor=3B4A3A&desc=iOS%20infrastructure%20monitoring&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="PulseWatch" width="100%" /></a>
+<br/>
+<sub>A native iOS infrastructure monitoring platform powered by Go, providing real-time service health tracking, incident detection, and intelligent alerts.</sub>
 </td>
-<td width="50%" align="center">
-<a href="https://github.com/greyshan/Heena"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=Heena&fontSize=34&fontColor=3B4A3A&desc=View%20on%20GitHub&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="Heena" width="100%" /></a>
+<td width="50%" valign="top" align="center">
+<a href="https://github.com/greyshan/Heena"><img src="https://capsule-render.vercel.app/api?type=rounded&color=0:F5F0E6,100:DCE5CF&height=130&section=header&text=Heena&fontSize=34&fontColor=3B4A3A&desc=AI%20business%20intelligence&descSize=15&descColor=4F6F52&descAlignY=72&fontAlignY=42" alt="Heena" width="100%" /></a>
+<br/>
+<sub>An AI-powered business intelligence platform combining RAG pipelines and machine learning to analyze business data, predict product demand, and uncover customer purchasing trends.</sub>
 </td>
 </tr>
 </table>
@@ -94,15 +102,46 @@ When I'm not building, I'm exploring a new field, reading a book, or learning so
 
 <br/><br/>
 
-<img src="https://ghchart.rshah.org/4F6F52/greyshan" alt="Contribution calendar" width="92%" />
-
-<br/><br/>
-
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/greyshan/greyshan/output/github-snake-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/greyshan/greyshan/output/github-snake.svg" />
   <img alt="Contribution snake" src="https://raw.githubusercontent.com/greyshan/greyshan/output/github-snake-dark.svg" />
 </picture>
+
+</div>
+
+<br/>
+
+## Problem Solving
+
+<div align="center">
+<a href="https://leetcode.com/u/greyshan">
+  <img src="https://leetcard.jacoblin.cool/greyshan?theme=light&font=Fira%20Code&ext=heatmap" alt="LeetCode stats and streak" width="92%" />
+</a>
+</div>
+
+<br/>
+
+## Badges
+
+<sub>Locked for now. Each one turns sage green as I earn it.</sub>
+
+<div align="center">
+
+<!--
+  To mark a badge as earned, replace its URL with the earned style, e.g.
+  https://img.shields.io/badge/Pull%20Shark-earned-9CAF88?style=for-the-badge&logo=github&logoColor=F5F0E6&labelColor=4F6F52
+-->
+
+<img src="https://img.shields.io/badge/Pull%20Shark-locked-3a3f38?style=for-the-badge&logo=github&logoColor=6b7a63&labelColor=2a2f28" alt="Pull Shark" />
+<img src="https://img.shields.io/badge/Quickdraw-locked-3a3f38?style=for-the-badge&logo=github&logoColor=6b7a63&labelColor=2a2f28" alt="Quickdraw" />
+<img src="https://img.shields.io/badge/YOLO-locked-3a3f38?style=for-the-badge&logo=github&logoColor=6b7a63&labelColor=2a2f28" alt="YOLO" />
+<img src="https://img.shields.io/badge/Starstruck-locked-3a3f38?style=for-the-badge&logo=github&logoColor=6b7a63&labelColor=2a2f28" alt="Starstruck" />
+<br/>
+<img src="https://img.shields.io/badge/Galaxy%20Brain-locked-3a3f38?style=for-the-badge&logo=github&logoColor=6b7a63&labelColor=2a2f28" alt="Galaxy Brain" />
+<img src="https://img.shields.io/badge/Pair%20Extraordinaire-locked-3a3f38?style=for-the-badge&logo=github&logoColor=6b7a63&labelColor=2a2f28" alt="Pair Extraordinaire" />
+<img src="https://img.shields.io/badge/LeetCode%20100-locked-3a3f38?style=for-the-badge&logo=leetcode&logoColor=6b7a63&labelColor=2a2f28" alt="LeetCode 100" />
+<img src="https://img.shields.io/badge/30%20Day%20Streak-locked-3a3f38?style=for-the-badge&logo=leetcode&logoColor=6b7a63&labelColor=2a2f28" alt="30 Day Streak" />
 
 </div>
 
