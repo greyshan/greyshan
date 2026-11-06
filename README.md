@@ -98,7 +98,7 @@ When I'm not building, I'm exploring a new field, reading a book, or learning so
 
 <div align="center">
 
-<img height="165" src="https://github-readme-stats.shion.dev/api/top-langs/?username=greyshan&layout=compact&langs_count=8&include_all_commits=true&count_private=true&bg_color=F5F0E6&title_color=4F6F52&text_color=2F3A2F&border_color=D9D2BD" alt="Top languages" />
+<img height="165" src="https://raw.githubusercontent.com/greyshan/greyshan/stats/languages.svg?v=1" alt="Most used languages" />
 <img height="165" src="https://streak-stats.demolab.com/?user=greyshan&background=F5F0E6&ring=4F6F52&fire=C17F59&currStreakNum=2F3A2F&sideNums=2F3A2F&currStreakLabel=4F6F52&sideLabels=4F6F52&dates=6B7A63&border=D9D2BD&date_format=j%20M%5B%20Y%5D" alt="Streak" />
 
 <br/><br/>
