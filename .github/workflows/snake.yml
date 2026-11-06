@@ -20,6 +20,108 @@ jobs:
           outputs: |
             dist/github-snake.svg?color_snake=#4F6F52&color_dots=#ebe7da,#c9d5b8,#9caf88,#6f8f5f,#4f6f52
             dist/github-snake-dark.svg?color_snake=#C17F59&color_dots=#2a3027,#3e5239,#5f7d55,#8aa67a,#b8cfa8
+
+      - name: Generate LeetCode card
+        continue-on-error: true
+        env:
+          LC_USER: greyshan
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request, datetime as dt
+          from xml.sax.saxutils import escape
+
+          USER = os.environ.get("LC_USER", "greyshan")
+          QUERY = """query($u:String!){matchedUser(username:$u){
+            userCalendar{submissionCalendar}
+            submitStats{acSubmissionNum{difficulty count}}}}"""
+
+          def fetch(user):
+              req = urllib.request.Request(
+                  "https://leetcode.com/graphql",
+                  data=json.dumps({"query": QUERY, "variables": {"u": user}}).encode(),
+                  headers={"Content-Type": "application/json", "Referer": "https://leetcode.com",
+                           "User-Agent": "Mozilla/5.0"})
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  m = json.load(r)["data"]["matchedUser"]
+              cal = json.loads(m["userCalendar"]["submissionCalendar"] or "{}")
+              days = {}
+              for ts, n in cal.items():
+                  d = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).date()
+                  days[d] = days.get(d, 0) + int(n)
+              solved = {x["difficulty"]: x["count"] for x in m["submitStats"]["acSubmissionNum"]}
+              return days, solved
+
+          def streaks(days, today):
+              cur, d = 0, today
+              if d not in days:
+                  d -= dt.timedelta(days=1)
+              while d in days:
+                  cur += 1; d -= dt.timedelta(days=1)
+              best = run = 0
+              for i in range(365):
+                  day = today - dt.timedelta(days=364 - i)
+                  run = run + 1 if day in days else 0
+                  best = max(best, run)
+              return cur, best
+
+          def level(n):
+              return 0 if n == 0 else 1 if n == 1 else 2 if n <= 3 else 3 if n <= 6 else 4
+
+          def render(days, solved, user, today):
+              BG, BORDER, INK, MUTED = "#F5F0E6", "#9CAF88", "#2F3A2F", "#6B7A63"
+              EMPTY = "#E2DAC4"
+              SCALE = [EMPTY, "#C9D5B8", "#9CAF88", "#6F8F5F", "#4F6F52"]
+              cur, best = streaks(days, today)
+              active = sum(1 for i in range(365) if today - dt.timedelta(days=i) in days)
+              total = solved.get("All", 0)
+              W, H = 880, 330
+              o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="Fira Code, ui-monospace, Menlo, Consolas, monospace">',
+                   f'<rect x="1.5" y="1.5" width="{W-3}" height="{H-3}" rx="16" fill="{BG}" stroke="{BORDER}" stroke-width="3"/>',
+                   f'<text x="40" y="52" font-size="22" font-weight="700" fill="{INK}">LeetCode</text>',
+                   f'<text x="165" y="52" font-size="14" fill="{MUTED}">@{escape(user)}</text>']
+              stats = [("Solved", total), ("Easy", solved.get("Easy", 0)), ("Medium", solved.get("Medium", 0)),
+                       ("Hard", solved.get("Hard", 0)), ("Streak", f"{cur}d"), ("Best", f"{best}d"), ("Active days", active)]
+              x = 40
+              for label, val in stats:
+                  o.append(f'<text x="{x}" y="100" font-size="26" font-weight="700" fill="#4F6F52">{val}</text>')
+                  o.append(f'<text x="{x}" y="122" font-size="12" fill="{MUTED}">{label}</text>')
+                  x += 118
+              start = today - dt.timedelta(days=364)
+              start -= dt.timedelta(days=(start.weekday() + 1) % 7)  # back to Sunday
+              gx, gy, cs, gap = 40, 168, 12, 3
+              last_m = None
+              d = start
+              col = 0
+              while d <= today:
+                  for r in range(7):
+                      day = d + dt.timedelta(days=r)
+                      if day > today: break
+                      if r == 0 and day.month != last_m and day >= start + dt.timedelta(days=7*0):
+                          if col < 51 or day.day > 7:
+                              o.append(f'<text x="{gx + col*(cs+gap)}" y="{gy-10}" font-size="11" fill="{MUTED}">{day.strftime("%b")}</text>')
+                          last_m = day.month
+                      n = days.get(day, 0)
+                      o.append(f'<rect x="{gx + col*(cs+gap)}" y="{gy + r*(cs+gap)}" width="{cs}" height="{cs}" rx="3" fill="{SCALE[level(n)]}"/>')
+                  d += dt.timedelta(days=7); col += 1
+              ly = gy + 7*(cs+gap) + 22
+              o.append(f'<text x="40" y="{ly+10}" font-size="11" fill="{MUTED}">Last 12 months</text>')
+              lx = W - 40 - (5*(cs+gap)) - 70
+              o.append(f'<text x="{lx}" y="{ly+10}" font-size="11" fill="{MUTED}">Less</text>')
+              for i, c in enumerate(SCALE):
+                  o.append(f'<rect x="{lx+34+i*(cs+gap)}" y="{ly}" width="{cs}" height="{cs}" rx="3" fill="{c}"/>')
+              o.append(f'<text x="{lx+34+5*(cs+gap)+4}" y="{ly+10}" font-size="11" fill="{MUTED}">More</text>')
+              o.append('</svg>')
+              return "\n".join(o)
+
+          if __name__ == "__main__":
+              days, solved = fetch(USER)
+              solved.setdefault("All", sum(solved.get(k, 0) for k in ("Easy", "Medium", "Hard")))
+              svg = render(days, solved, USER, dt.datetime.now(dt.timezone.utc).date())
+              os.makedirs("dist", exist_ok=True)
+              open("dist/leetcode.svg", "w").write(svg)
+              print("wrote dist/leetcode.svg")
+          PY
+
       - uses: crazy-max/ghaction-github-pages@v3.1.0
         with:
           target_branch: output
