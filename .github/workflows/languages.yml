@@ -12,29 +12,51 @@ jobs:
   card:
     runs-on: ubuntu-latest
     steps:
-      - name: Build language card
+      - name: Build language and streak cards
         env:
           GH_TOKEN: ${{ secrets.GH_STATS_TOKEN }}
           EXCLUDE: "Jupyter Notebook"
         run: |
           python3 - <<'PY'
-          import json, os, sys, urllib.request, urllib.error
+          import json, os, sys, urllib.request, urllib.error, datetime as dt
           from xml.sax.saxutils import escape
 
           TOKEN = os.environ.get("GH_TOKEN", "")
           EXCLUDE = {x.strip().lower() for x in os.environ.get("EXCLUDE", "").split(",") if x.strip()}
+          BG, BORDER, INK, MUTED, TRACK, LINE = "#F5F0E6", "#9CAF88", "#2F3A2F", "#6B7A63", "#E2DAC4", "#D9D2BD"
+          SAGE, CLAY = "#4F6F52", "#C17F59"
+          W, H = 410, 165
 
-          def api(path):
-              req = urllib.request.Request("https://api.github.com" + path, headers={
+          class Fail(Exception):
+              pass
+
+          def call(url, payload=None):
+              req = urllib.request.Request(url, data=json.dumps(payload).encode() if payload else None, headers={
                   "Authorization": "Bearer " + TOKEN, "Accept": "application/vnd.github+json",
-                  "User-Agent": "lang-card", "X-GitHub-Api-Version": "2022-11-28"})
+                  "User-Agent": "profile-cards", "X-GitHub-Api-Version": "2022-11-28"})
               try:
                   with urllib.request.urlopen(req, timeout=30) as r:
                       return json.load(r)
               except urllib.error.HTTPError as e:
-                  print("GitHub API error: HTTP", e.code)   # no repo names are ever printed
-                  sys.exit(1)
+                  print("GitHub API error: HTTP", e.code)      # never print repo names
+                  raise Fail()
 
+          def api(path):
+              return call("https://api.github.com" + path)
+
+          def gql(query, variables=None):
+              out = call("https://api.github.com/graphql", {"query": query, "variables": variables or {}})
+              if out.get("errors") or not out.get("data"):
+                  print("GraphQL error")
+                  raise Fail()
+              return out["data"]
+
+          # ---------- shared frame so both cards match exactly ----------
+          def open_svg():
+              return [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="Fira Code, ui-monospace, Menlo, Consolas, monospace">',
+                      f'<rect x="1.5" y="1.5" width="{W-3}" height="{H-3}" rx="10" fill="{BG}" stroke="{BORDER}" stroke-width="3"/>']
+
+          # ---------- languages ----------
           def collect():
               totals, page = {}, 1
               while True:
@@ -48,34 +70,106 @@ jobs:
                   page += 1
               return totals
 
-          def render(totals):
-              BG, BORDER, INK, MUTED, TRACK = "#F5F0E6", "#9CAF88", "#2F3A2F", "#6B7A63", "#E2DAC4"
-              FILLS = ["#4F6F52", "#6F8F5F", "#8AA67A", "#9CAF88", "#B5C4A2"]
+          def render_languages(totals):
+              FILLS = [SAGE, "#6F8F5F", "#8AA67A", "#9CAF88", "#B5C4A2"]
               top = sorted(totals.items(), key=lambda kv: -kv[1])[:5]
               total = sum(totals.values()) or 1
-              W, H = 495, 165
-              o = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="Fira Code, ui-monospace, Menlo, Consolas, monospace">',
-                   f'<rect x="1.5" y="1.5" width="{W-3}" height="{H-3}" rx="10" fill="{BG}" stroke="{BORDER}" stroke-width="3"/>',
-                   f'<text x="26" y="34" font-size="16" font-weight="700" fill="#4F6F52">Most Used Languages</text>']
+              o = open_svg()
+              o.append(f'<text x="26" y="34" font-size="16" font-weight="700" fill="{SAGE}">Most Used Languages</text>')
               for i, (lang, n) in enumerate(top):
                   y = 58 + i * 20
                   pct = n * 100 / total
                   o.append(f'<text x="26" y="{y+9}" font-size="12" fill="{INK}">{escape(lang)}</text>')
-                  o.append(f'<rect x="140" y="{y}" width="260" height="9" rx="4.5" fill="{TRACK}"/>')
-                  o.append(f'<rect x="140" y="{y}" width="{max(260*pct/100, 6):.1f}" height="9" rx="4.5" fill="{FILLS[i]}"/>')
+                  o.append(f'<rect x="122" y="{y}" width="200" height="9" rx="4.5" fill="{TRACK}"/>')
+                  o.append(f'<rect x="122" y="{y}" width="{max(200*pct/100, 6):.1f}" height="9" rx="4.5" fill="{FILLS[i]}"/>')
                   o.append(f'<text x="{W-26}" y="{y+9}" font-size="12" text-anchor="end" fill="{MUTED}">{pct:.1f}%</text>')
+              o.append('</svg>')
+              return "\n".join(o)
+
+          # ---------- streak ----------
+          CAL_Q = """query($from:DateTime!,$to:DateTime!){viewer{contributionsCollection(from:$from,to:$to){
+            contributionCalendar{weeks{contributionDays{date contributionCount}}}}}}"""
+
+          def collect_days(today):
+              years = gql("{viewer{contributionsCollection{contributionYears}}}")["viewer"]["contributionsCollection"]["contributionYears"]
+              days = {}
+              for y in sorted(years):
+                  end = min(dt.datetime(y, 12, 31, 23, 59, 59, tzinfo=dt.timezone.utc), dt.datetime.now(dt.timezone.utc))
+                  data = gql(CAL_Q, {"from": f"{y}-01-01T00:00:00Z", "to": end.strftime("%Y-%m-%dT%H:%M:%SZ")})
+                  for w in data["viewer"]["contributionsCollection"]["contributionCalendar"]["weeks"]:
+                      for d in w["contributionDays"]:
+                          date = dt.date.fromisoformat(d["date"])
+                          if date <= today:
+                              days[date] = d["contributionCount"]
+              return days
+
+          def streak_stats(days, today):
+              one = dt.timedelta(days=1)
+              active = sorted(d for d, c in days.items() if c > 0)
+              total = sum(days.values())
+              first = active[0] if active else None
+              best, prev, run, start = (0, None, None), None, 0, None
+              for d in active:
+                  if prev and d - prev == one: run += 1
+                  else: run, start = 1, d
+                  prev = d
+                  if run > best[0]: best = (run, start, d)
+              end = today if days.get(today, 0) > 0 else today - one
+              cur, d = 0, end
+              while days.get(d, 0) > 0:
+                  cur += 1; d -= one
+              cur_range = (d + one, end) if cur else None
+              return total, first, cur, cur_range, best
+
+          def fmt_range(a, b, today):
+              if a is None: return "-"
+              f = lambda d, y: f"{d.day} {d.strftime('%b')}" + (f" '{d.strftime('%y')}" if y else "")
+              cross = a.year != b.year
+              return f"{f(a, cross)} - {f(b, cross)}"
+
+          def render_streak(days, today):
+              total, first, cur, cur_range, best = streak_stats(days, today)
+              cols = [W/6, W/2, 5*W/6]
+              o = open_svg()
+              for x in (W/3, 2*W/3):
+                  o.append(f'<line x1="{x:.1f}" y1="28" x2="{x:.1f}" y2="{H-28}" stroke="{LINE}" stroke-width="1"/>')
+              # total
+              o.append(f'<text x="{cols[0]:.1f}" y="78" font-size="26" font-weight="700" text-anchor="middle" fill="{INK}">{total}</text>')
+              o.append(f'<text x="{cols[0]:.1f}" y="116" font-size="10.5" text-anchor="middle" fill="{SAGE}">Total Contributions</text>')
+              since = f"{first.day} {first.strftime('%b %Y')} - Present" if first else "-"
+              o.append(f'<text x="{cols[0]:.1f}" y="135" font-size="9.5" text-anchor="middle" fill="{MUTED}">{since}</text>')
+              # current (ring + flame)
+              cx = cols[1]
+              o.append(f'<circle cx="{cx:.1f}" cy="68" r="30" fill="none" stroke="{SAGE}" stroke-width="4"/>')
+              o.append(f'<path d="M{cx:.1f} 22 C{cx+6:.1f} 30 {cx+8:.1f} 34 {cx+8:.1f} 37 a8 8 0 0 1 -16 0 C{cx-8:.1f} 34 {cx-6:.1f} 30 {cx:.1f} 22 Z" fill="{CLAY}" stroke="{BG}" stroke-width="3" paint-order="stroke"/>')
+              o.append(f'<text x="{cx:.1f}" y="77" font-size="26" font-weight="700" text-anchor="middle" fill="{INK}">{cur}</text>')
+              o.append(f'<text x="{cx:.1f}" y="116" font-size="10.5" font-weight="700" text-anchor="middle" fill="{SAGE}">Current Streak</text>')
+              o.append(f'<text x="{cx:.1f}" y="135" font-size="9.5" text-anchor="middle" fill="{MUTED}">{escape(fmt_range(*(cur_range or (None, None)), today))}</text>')
+              # longest
+              o.append(f'<text x="{cols[2]:.1f}" y="78" font-size="26" font-weight="700" text-anchor="middle" fill="{INK}">{best[0]}</text>')
+              o.append(f'<text x="{cols[2]:.1f}" y="116" font-size="10.5" text-anchor="middle" fill="{SAGE}">Longest Streak</text>')
+              o.append(f'<text x="{cols[2]:.1f}" y="135" font-size="9.5" text-anchor="middle" fill="{MUTED}">{escape(fmt_range(best[1], best[2], today))}</text>')
               o.append('</svg>')
               return "\n".join(o)
 
           if __name__ == "__main__":
               if not TOKEN:
                   print("Missing GH_STATS_TOKEN secret"); sys.exit(1)
-              totals = collect()
+              os.makedirs("dist", exist_ok=True)
+              try:
+                  totals = collect()
+              except Fail:
+                  sys.exit(1)
               if not totals:
                   print("No language data found"); sys.exit(1)
-              os.makedirs("dist", exist_ok=True)
-              open("dist/languages.svg", "w").write(render(totals))
-              print("done")
+              open("dist/languages.svg", "w").write(render_languages(totals))
+              print("languages done")
+              try:
+                  today = dt.datetime.now(dt.timezone.utc).date()
+                  open("dist/streak.svg", "w").write(render_streak(collect_days(today), today))
+                  print("streak done")
+              except Fail:
+                  print("streak card skipped")   # languages card is still published
           PY
 
       - name: Publish to stats branch
