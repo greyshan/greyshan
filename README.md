@@ -98,8 +98,8 @@ When I'm not building, I'm exploring a new field, reading a book, or learning so
 
 <div align="center">
 
-<img height="165" src="https://raw.githubusercontent.com/greyshan/greyshan/stats/languages.svg?v=1" alt="Most used languages" />
-<img height="165" src="https://streak-stats.demolab.com/?user=greyshan&background=F5F0E6&ring=4F6F52&fire=C17F59&currStreakNum=2F3A2F&sideNums=2F3A2F&currStreakLabel=4F6F52&sideLabels=4F6F52&dates=6B7A63&border=D9D2BD&date_format=j%20M%5B%20Y%5D" alt="Streak" />
+<img width="48%" src="https://raw.githubusercontent.com/greyshan/greyshan/stats/languages.svg?v=2" alt="Most used languages" />
+<img width="48%" src="https://raw.githubusercontent.com/greyshan/greyshan/stats/streak.svg?v=2" alt="Contribution streak" />
 
 <br/><br/>
 
