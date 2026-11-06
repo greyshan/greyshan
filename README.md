@@ -117,7 +117,7 @@ When I'm not building, I'm exploring a new field, reading a book, or learning so
 
 <div align="center">
 <a href="https://leetcode.com/u/greyshan">
-  <img src="https://raw.githubusercontent.com/greyshan/greyshan/output/leetcode.svg" alt="LeetCode stats and streak" width="92%" />
+  <img src="https://raw.githubusercontent.com/greyshan/greyshan/leetcode/leetcode.svg?v=1" alt="LeetCode stats and streak" width="92%" />
 </a>
 </div>
 
@@ -143,6 +143,16 @@ When I'm not building, I'm exploring a new field, reading a book, or learning so
 <img src="https://img.shields.io/badge/Pair%20Extraordinaire-locked-3a3f38?style=for-the-badge&logo=github&logoColor=6b7a63&labelColor=2a2f28" alt="Pair Extraordinaire" />
 <img src="https://img.shields.io/badge/LeetCode%20100-locked-3a3f38?style=for-the-badge&logo=leetcode&logoColor=6b7a63&labelColor=2a2f28" alt="LeetCode 100" />
 <img src="https://img.shields.io/badge/30%20Day%20Streak-locked-3a3f38?style=for-the-badge&logo=leetcode&logoColor=6b7a63&labelColor=2a2f28" alt="30 Day Streak" />
+
+</div>
+
+<br/>
+
+<div align="center">
+
+### *“Stay hungry. Stay foolish.”*
+
+<sub>Steve Jobs · Stanford commencement address, 2005</sub>
 
 </div>
 
