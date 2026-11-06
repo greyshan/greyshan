@@ -117,7 +117,7 @@ When I'm not building, I'm exploring a new field, reading a book, or learning so
 
 <div align="center">
 <a href="https://leetcode.com/u/greyshan">
-  <img src="https://leetcard.jacoblin.cool/greyshan?theme=light&font=Fira%20Code&ext=heatmap" alt="LeetCode stats and streak" width="92%" />
+  <img src="https://raw.githubusercontent.com/greyshan/greyshan/output/leetcode.svg" alt="LeetCode stats and streak" width="92%" />
 </a>
 </div>
 
