@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="410" height="165" viewBox="0 0 410 165" font-family="Fira Code, ui-monospace, Menlo, Consolas, monospace">
+<rect x="1.5" y="1.5" width="407" height="162" rx="10" fill="#F5F0E6" stroke="#9CAF88" stroke-width="3"/>
+<text x="26" y="34" font-size="16" font-weight="700" fill="#4F6F52">Most Used Languages</text>
+<text x="26" y="67" font-size="12" fill="#2F3A2F">TypeScript</text>
+<rect x="122" y="58" width="200" height="9" rx="4.5" fill="#E2DAC4"/>
+<rect x="122" y="58" width="88.0" height="9" rx="4.5" fill="#4F6F52"/>
+<text x="384" y="67" font-size="12" text-anchor="end" fill="#6B7A63">44.0%</text>
+<text x="26" y="87" font-size="12" fill="#2F3A2F">JavaScript</text>
+<rect x="122" y="78" width="200" height="9" rx="4.5" fill="#E2DAC4"/>
+<rect x="122" y="78" width="61.8" height="9" rx="4.5" fill="#6F8F5F"/>
+<text x="384" y="87" font-size="12" text-anchor="end" fill="#6B7A63">30.9%</text>
+<text x="26" y="107" font-size="12" fill="#2F3A2F">HTML</text>
+<rect x="122" y="98" width="200" height="9" rx="4.5" fill="#E2DAC4"/>
+<rect x="122" y="98" width="14.4" height="9" rx="4.5" fill="#8AA67A"/>
+<text x="384" y="107" font-size="12" text-anchor="end" fill="#6B7A63">7.2%</text>
+<text x="26" y="127" font-size="12" fill="#2F3A2F">C++</text>
+<rect x="122" y="118" width="200" height="9" rx="4.5" fill="#E2DAC4"/>
+<rect x="122" y="118" width="12.7" height="9" rx="4.5" fill="#9CAF88"/>
+<text x="384" y="127" font-size="12" text-anchor="end" fill="#6B7A63">6.3%</text>
+<text x="26" y="147" font-size="12" fill="#2F3A2F">Python</text>
+<rect x="122" y="138" width="200" height="9" rx="4.5" fill="#E2DAC4"/>
+<rect x="122" y="138" width="11.3" height="9" rx="4.5" fill="#B5C4A2"/>
+<text x="384" y="147" font-size="12" text-anchor="end" fill="#6B7A63">5.6%</text>
+</svg>
